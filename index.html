@@ -4,57 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ganguly L | Performance Marketing Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Three.js Library CDN -->
+    <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-blue: #38bdf8;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-blue);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 1rem 0 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn.primary {
+            background: var(--accent-blue);
+            color: #000;
+        }
+
+        .btn.secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Metrics Section */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .glass-card i {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .glass-card h3 {
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .glass-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Skills Section */
+        .skills-section h2, .timeline-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-bottom: 5rem;
+        }
+
+        .skill-tag {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tag i {
+            color: var(--accent-blue);
+        }
+
+        /* Timeline Section */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .timeline-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1.8rem;
+            border-radius: 16px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .timeline-header span {
+            color: var(--accent-blue);
+            font-size: 0.875rem;
+        }
+
+        .timeline h4 {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .timeline ul {
+            padding-left: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- 3D Interactive Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Content Overlay -->
     <main class="container">
         
         <!-- Hero Section -->
         <section class="hero">
-            <span class="badge">Performance & Growth Marketer</span>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Ganguly L" class="profile-img">
+            <div>
+                <span class="badge"><i class="fa-solid fa-chart-line"></i> Performance & Growth Marketer</span>
+            </div>
             <h1>Ganguly L</h1>
-            <p class="subtitle">Senior Marketing Analyst with 4+ years of expertise scaling campaigns across Google Ads, Meta Ads, and Data Analytics[span_0](start_span)[span_0](end_span).</p>
+            <p class="subtitle">Senior Marketing Analyst with 4+ years of expertise scaling campaigns across Google Ads, Meta Ads, GA4, and Data Analytics[span_0](start_span)[span_0](end_span).</p>
             <div class="cta-group">
-                <a href="#experience" class="btn primary">View Experience</a>
-                <a href="mailto:gangulylm@gmail.com" class="btn secondary">Contact Me</a>
+                <a href="#experience" class="btn primary"><i class="fa-solid fa-briefcase"></i> View Experience</a>
+                <a href="mailto:gangulylm@gmail.com" class="btn secondary"><i class="fa-solid fa-envelope"></i> Contact Me</a>
             </div>
         </section>
 
         <!-- Metrics Section -->
         <section class="metrics-grid">
             <div class="glass-card">
+                <i class="fa-solid fa-arrow-pointer"></i>
                 <h3>802K+</h3>
                 <p>Google Ads Clicks Managed[span_1](start_span)[span_1](end_span)</p>
             </div>
             <div class="glass-card">
+                <i class="fa-solid fa-eye"></i>
                 <h3>25.2M+</h3>
                 <p>Ad Impressions Delivered[span_2](start_span)[span_2](end_span)</p>
             </div>
             <div class="glass-card">
+                <i class="fa-solid fa-sack-dollar"></i>
                 <h3>₹1CR+</h3>
                 <p>SEO-Driven Orders Generated[span_3](start_span)[span_3](end_span)</p>
             </div>
         </section>
 
-        <!-- Core Skills Section -->
+        <!-- Skills Section -->
         <section class="skills-section">
             <h2>Core Capabilities</h2>
             <div class="skills-grid">
-                <div class="skill-tag">Google Ads (Search, Display, PMax, App)[span_4](start_span)[span_4](end_span)</div>
-                <div class="skill-tag">Meta Ads (Facebook & Instagram)[span_5](start_span)[span_5](end_span)</div>
-                <div class="skill-tag">GA4 & Google Tag Manager (GTM)[span_6](start_span)[span_6](end_span)</div>
-                <div class="skill-tag">Firebase Analytics[span_7](start_span)[span_7](end_span)</div>
-                <div class="skill-tag">Lead Generation (B2B/B2C)[span_8](start_span)[span_8](end_span)</div>
-                <div class="skill-tag">On-Page, Off-Page & Local SEO[span_9](start_span)[span_9](end_span)</div>
-                <div class="skill-tag">Google Business Profile Optimization[span_10](start_span)[span_10](end_span)</div>
-                <div class="skill-tag">Amazon SES & SendGrid Automation[span_11](start_span)[span_11](end_span)</div>
+                <div class="skill-tag"><i class="fa-brands fa-google"></i> Google Ads (Search, Display, PMax, App)[span_4](start_span)[span_4](end_span)</div>
+                <div class="skill-tag"><i class="fa-brands fa-facebook"></i> Meta Ads (Facebook & Instagram)[span_5](start_span)[span_5](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-chart-pie"></i> GA4 & Google Tag Manager (GTM)[span_6](start_span)[span_6](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-fire"></i> Firebase Analytics[span_7](start_span)[span_7](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-filter"></i> Lead Generation (B2B/B2C)[span_8](start_span)[span_8](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-magnifying-glass-chart"></i> On-Page, Off-Page & Local SEO[span_9](start_span)[span_9](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-store"></i> Google Business Profile Optimization[span_10](start_span)[span_10](end_span)</div>
+                <div class="skill-tag"><i class="fa-solid fa-paper-plane"></i> Amazon SES & SendGrid Automation[span_11](start_span)[span_11](end_span)</div>
             </div>
         </section>
 
@@ -66,7 +289,7 @@
                 <div class="timeline-item">
                     <div class="timeline-header">
                         <h3>Senior Marketing Analyst</h3>
-                        <span>Jun 2026 – Present</span>[span_12](start_span)[span_12](end_span)
+                        <span><i class="fa-regular fa-calendar"></i> Jun 2026 – Present</span>[span_12](start_span)[span_12](end_span)
                     </div>
                     <h4>Hue Touch Technology Pvt. Ltd.</h4>[span_13](start_span)[span_13](end_span)
                     <ul>
@@ -80,7 +303,7 @@
                 <div class="timeline-item">
                     <div class="timeline-header">
                         <h3>Digital Marketing Analyst</h3>
-                        <span>Feb 2025 – May 2026</span>[span_18](start_span)[span_18](end_span)
+                        <span><i class="fa-regular fa-calendar"></i> Feb 2025 – May 2026</span>[span_18](start_span)[span_18](end_span)
                     </div>
                     <h4>GBS Systems & Services Pvt. Ltd.</h4>[span_19](start_span)[span_19](end_span)
                     <ul>
@@ -93,7 +316,7 @@
                 <div class="timeline-item">
                     <div class="timeline-header">
                         <h3>Digital Marketer</h3>
-                        <span>Jan 2024 – Jan 2025</span>[span_23](start_span)[span_23](end_span)
+                        <span><i class="fa-regular fa-calendar"></i> Jan 2024 – Jan 2025</span>[span_23](start_span)[span_23](end_span)
                     </div>
                     <h4>Universal Powertech Engineering</h4>[span_24](start_span)[span_24](end_span)
                     <ul>
@@ -106,6 +329,65 @@
 
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        const geometry = new THREE.IcosahedronGeometry(10, 2);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x38bdf8,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        camera.position.z = 25;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function handleMove(x, y) {
+            mouseX = (x / window.innerWidth) - 0.5;
+            mouseY = (y / window.innerHeight) - 0.5;
+        }
+
+        document.addEventListener('mousemove', (event) => {
+            handleMove(event.clientX, event.clientY);
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            if (event.touches.length > 0) {
+                handleMove(event.touches[0].clientX, event.touches[0].clientY);
+            }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            sphere.rotation.x += 0.001;
+            sphere.rotation.y += 0.002;
+
+            sphere.rotation.x += mouseY * 0.03;
+            sphere.rotation.y += mouseX * 0.03;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
 </body>
 </html>
