@@ -1,0 +1,188 @@
+:root {
+    --bg-color: #0b0f19;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --accent-blue: #38bdf8;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0 3rem;
+}
+
+.badge {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 1.5rem 0 1rem;
+    background: linear-gradient(135deg, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn.primary {
+    background: var(--accent-blue);
+    color: #000;
+}
+
+.btn.secondary {
+    background: var(--glass-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+}
+
+/* Glassmorphism Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin: 4rem 0;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.glass-card h3 {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 0.5rem;
+}
+
+.glass-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Skills */
+.skills-section h2, .timeline-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-bottom: 5rem;
+}
+
+.skill-tag {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+}
+
+/* Timeline */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.timeline-item {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 1.8rem;
+    border-radius: 16px;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.timeline-header span {
+    color: var(--accent-blue);
+    font-size: 0.875rem;
+}
+
+.timeline h4 {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.timeline ul {
+    padding-left: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.timeline li {
+    margin-bottom: 0.5rem;
+}
