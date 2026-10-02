@@ -3,7 +3,8 @@
     --text-primary: #f3f4f6;
     --text-secondary: #9ca3af;
     --accent-blue: #38bdf8;
-    --glass-bg: rgba(255, 255, 255, 0.03);
+    --accent-green: #10b981;
+    --glass-bg: rgba(255, 255, 255, 0.04);
     --glass-border: rgba(255, 255, 255, 0.08);
 }
 
@@ -38,7 +39,17 @@ body {
 /* Hero Section */
 .hero {
     text-align: center;
-    padding: 4rem 0 3rem;
+    padding: 2rem 0 3rem;
+}
+
+.profile-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-blue);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
 }
 
 .badge {
@@ -48,11 +59,12 @@ body {
     border-radius: 20px;
     font-size: 0.875rem;
     border: 1px solid rgba(56, 189, 248, 0.2);
+    display: inline-block;
 }
 
 h1 {
     font-size: 3rem;
-    margin: 1.5rem 0 1rem;
+    margin: 1rem 0 0.5rem;
     background: linear-gradient(135deg, #ffffff, #94a3b8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -61,7 +73,7 @@ h1 {
 .subtitle {
     font-size: 1.15rem;
     color: var(--text-secondary);
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto 2rem;
     line-height: 1.6;
 }
@@ -70,6 +82,7 @@ h1 {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -78,6 +91,9 @@ h1 {
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .btn.primary {
@@ -91,7 +107,7 @@ h1 {
     border: 1px solid var(--glass-border);
 }
 
-/* Glassmorphism Metrics */
+/* Pictorial Metrics Grid */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -107,11 +123,19 @@ h1 {
     padding: 2rem;
     border-radius: 16px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card i {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
 }
 
 .glass-card h3 {
     font-size: 2.2rem;
-    color: var(--accent-blue);
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
@@ -120,7 +144,7 @@ h1 {
     font-size: 0.95rem;
 }
 
-/* Skills */
+/* Visual Progress Cards */
 .skills-section h2, .timeline-section h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
@@ -128,22 +152,52 @@ h1 {
 }
 
 .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
     margin-bottom: 5rem;
 }
 
-.skill-tag {
+.skill-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 0.6rem 1.2rem;
-    border-radius: 30px;
-    font-size: 0.9rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
 }
 
-/* Timeline */
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.skill-name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+}
+
+.skill-name i {
+    color: var(--accent-blue);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    border-radius: 10px;
+}
+
+/* Timeline Section */
 .timeline {
     display: flex;
     flex-direction: column;
@@ -185,4 +239,12 @@ h1 {
 
 .timeline li {
     margin-bottom: 0.5rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding-top: 3rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
