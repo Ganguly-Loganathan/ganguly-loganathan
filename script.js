@@ -1,63 +1,159 @@
-// Setup Three.js Canvas Scene
-const canvas = document.getElementById('bg-canvas');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+// ==========================================
+// THREE.JS BACKGROUND
+// ==========================================
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+const canvas = document.getElementById("bg-canvas");
 
-// 3D Wireframe Icosahedron
-const geometry = new THREE.IcosahedronGeometry(10, 2);
-const material = new THREE.MeshBasicMaterial({
-    color: 0x38bdf8,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.15
-});
+if (canvas && typeof THREE !== "undefined") {
 
-const sphere = new THREE.Mesh(geometry, material);
-scene.add(sphere);
+    const scene = new THREE.Scene();
 
-camera.position.z = 25;
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
 
-// Interactive Motion Handling for Touch and Mouse
-let mouseX = 0;
-let mouseY = 0;
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+    });
 
-function handleMove(x, y) {
-    mouseX = (x / window.innerWidth) - 0.5;
-    mouseY = (y / window.innerHeight) - 0.5;
-}
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, 2)
+    );
 
-document.addEventListener('mousemove', (event) => {
-    handleMove(event.clientX, event.clientY);
-});
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
 
-document.addEventListener('touchmove', (event) => {
-    if (event.touches.length > 0) {
-        handleMove(event.touches[0].clientX, event.touches[0].clientY);
+    // ------------------------------------------
+    // Wireframe Globe
+    // ------------------------------------------
+
+    const geometry = new THREE.IcosahedronGeometry(
+        10,
+        2
+    );
+
+    const material = new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15
+    });
+
+    const sphere = new THREE.Mesh(
+        geometry,
+        material
+    );
+
+    scene.add(sphere);
+
+    camera.position.z = 25;
+
+
+    // ------------------------------------------
+    // Mouse / Touch Interaction
+    // ------------------------------------------
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    function updatePointer(x, y) {
+
+        mouseX =
+            (x / window.innerWidth) - 0.5;
+
+        mouseY =
+            (y / window.innerHeight) - 0.5;
     }
-});
 
-// Render Loop Animation
-function animate() {
-    requestAnimationFrame(animate);
+    document.addEventListener(
+        "mousemove",
+        function (event) {
 
-    sphere.rotation.x += 0.001;
-    sphere.rotation.y += 0.002;
+            updatePointer(
+                event.clientX,
+                event.clientY
+            );
 
-    sphere.rotation.x += mouseY * 0.03;
-    sphere.rotation.y += mouseX * 0.03;
+        }
+    );
 
-    renderer.render(scene, camera);
+
+    document.addEventListener(
+        "touchmove",
+        function (event) {
+
+            if (event.touches.length > 0) {
+
+                updatePointer(
+                    event.touches[0].clientX,
+                    event.touches[0].clientY
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    // ------------------------------------------
+    // Animation
+    // ------------------------------------------
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+        sphere.rotation.x +=
+            0.001 + mouseY * 0.0005;
+
+        sphere.rotation.y +=
+            0.002 + mouseX * 0.0005;
+
+        renderer.render(
+            scene,
+            camera
+        );
+    }
+
+    animate();
+
+
+    // ------------------------------------------
+    // Resize
+    // ------------------------------------------
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            camera.aspect =
+                width / height;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(
+                width,
+                height
+            );
+
+            renderer.setPixelRatio(
+                Math.min(window.devicePixelRatio, 2)
+            );
+
+        }
+    );
+
 }
-
-animate();
-
-// Screen Resize Handler
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
