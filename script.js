@@ -1,4 +1,4 @@
-// Setup Three.js Scene
+// Setup Three.js Canvas Scene
 const canvas = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -7,7 +7,7 @@ const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialia
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// 3D Wireframe Shape
+// 3D Wireframe Icosahedron
 const geometry = new THREE.IcosahedronGeometry(10, 2);
 const material = new THREE.MeshBasicMaterial({
     color: 0x38bdf8,
@@ -21,7 +21,7 @@ scene.add(sphere);
 
 camera.position.z = 25;
 
-// Interactive Motion for Mouse & Touch
+// Interactive Motion Handling for Touch and Mouse
 let mouseX = 0;
 let mouseY = 0;
 
@@ -40,15 +40,13 @@ document.addEventListener('touchmove', (event) => {
     }
 });
 
-// Render Loop
+// Render Loop Animation
 function animate() {
     requestAnimationFrame(animate);
 
-    // Subtle Continuous Rotation
     sphere.rotation.x += 0.001;
     sphere.rotation.y += 0.002;
 
-    // Responsive Touch/Mouse Rotation
     sphere.rotation.x += mouseY * 0.03;
     sphere.rotation.y += mouseX * 0.03;
 
@@ -57,7 +55,7 @@ function animate() {
 
 animate();
 
-// Handle Screen Resize
+// Screen Resize Handler
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
