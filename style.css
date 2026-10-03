@@ -28,8 +28,7 @@ body {
     min-height: 100vh;
 }
 
-/* ================= AMBIENT & CANVAS ================= */
-
+/* Ambient Cursor Lighting */
 .glow-spotlight {
     position: fixed;
     top: 0;
@@ -213,7 +212,6 @@ h1 {
     margin: 40px 0 90px;
 }
 
-/* Corrected class selector from .3d-card to .card-3d */
 .card-3d {
     position: relative;
     background: var(--glass-bg);
