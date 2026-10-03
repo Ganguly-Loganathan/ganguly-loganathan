@@ -1,5 +1,5 @@
 // ==========================================
-// THREE.JS INTERACTIVE DYNAMIC BACKGROUND
+// THREE.JS PLEASANT LIGHT 3D SCENE
 // ==========================================
 
 const canvas = document.getElementById("bg-canvas");
@@ -9,12 +9,12 @@ if (canvas && typeof THREE !== "undefined") {
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
-        75,
+        60,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
     );
-    camera.position.z = 25;
+    camera.position.z = 30;
 
     const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
@@ -26,63 +26,63 @@ if (canvas && typeof THREE !== "undefined") {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // ------------------------------------------
-    // 1. Dual-Layer Wireframe Globe
+    // 1. Light Wireframe Centerpiece
     // ------------------------------------------
 
-    const mainGroup = new THREE.Group();
-    scene.add(mainGroup);
+    const torusGroup = new THREE.Group();
+    scene.add(torusGroup);
 
-    // Outer Wireframe Globe
-    const outerGeo = new THREE.IcosahedronGeometry(11, 2);
-    const outerMat = new THREE.MeshBasicMaterial({
-        color: 0x38bdf8,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.15
-    });
-    const outerSphere = new THREE.Mesh(outerGeo, outerMat);
-    mainGroup.add(outerSphere);
-
-    // Inner Core Wireframe (Rotates in Opposite Direction)
-    const innerGeo = new THREE.IcosahedronGeometry(6, 1);
-    const innerMat = new THREE.MeshBasicMaterial({
-        color: 0x818cf8,
+    const torusGeo = new THREE.TorusKnotGeometry(8, 2.2, 120, 16);
+    const torusMat = new THREE.MeshBasicMaterial({
+        color: 0x2563eb,
         wireframe: true,
         transparent: true,
         opacity: 0.12
     });
-    const innerSphere = new THREE.Mesh(innerGeo, innerMat);
-    mainGroup.add(innerSphere);
 
-    // ------------------------------------------
-    // 2. Interactive Floating Particle Network
-    // ------------------------------------------
+    const torusKnot = new THREE.Mesh(torusGeo, torusMat);
+    torusGroup.add(torusKnot);
 
-    const particleCount = 200;
-    const particleGeometry = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        particlePositions[i] = (Math.random() - 0.5) * 50;     // X
-        particlePositions[i + 1] = (Math.random() - 0.5) * 50; // Y
-        particlePositions[i + 2] = (Math.random() - 0.5) * 50; // Z
-    }
-
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-
-    const particleMaterial = new THREE.PointsMaterial({
-        color: 0x38bdf8,
-        size: 0.15,
+    // Inner Geometric Core
+    const coreGeo = new THREE.IcosahedronGeometry(4, 1);
+    const coreMat = new THREE.MeshBasicMaterial({
+        color: 0x0d9488,
+        wireframe: true,
         transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
+        opacity: 0.18
     });
 
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    torusGroup.add(coreMesh);
 
     // ------------------------------------------
-    // 3. Pointer & Scroll Smooth Tracking (Lerp)
+    // 2. Subtle Floating Ambient Particles
+    // ------------------------------------------
+
+    const particlesCount = 800;
+    const particlesGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 90;
+        positions[i + 1] = (Math.random() - 0.5) * 90;
+        positions[i + 2] = (Math.random() - 0.5) * 50;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.18,
+        color: 0x2563eb,
+        transparent: true,
+        opacity: 0.35
+    });
+
+    const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particleSystem);
+
+    // ------------------------------------------
+    // 3. Pointer & Scroll Interactions
     // ------------------------------------------
 
     let mouseX = 0;
@@ -91,27 +91,24 @@ if (canvas && typeof THREE !== "undefined") {
     let targetY = 0;
     let scrollY = 0;
 
-    function updatePointer(x, y) {
-        targetX = (x / window.innerWidth - 0.5) * 2;
-        targetY = (y / window.innerHeight - 0.5) * 2;
-    }
+    const spotlight = document.querySelector('.glow-spotlight');
 
-    document.addEventListener("mousemove", (event) => {
-        updatePointer(event.clientX, event.clientY);
-    });
+    document.addEventListener("mousemove", (e) => {
+        targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+        targetY = (e.clientY / window.innerHeight - 0.5) * 2;
 
-    document.addEventListener("touchmove", (event) => {
-        if (event.touches.length > 0) {
-            updatePointer(event.touches[0].clientX, event.touches[0].clientY);
+        if (spotlight) {
+            spotlight.style.setProperty('--mouse-x', `${e.clientX}px`);
+            spotlight.style.setProperty('--mouse-y', `${e.clientY}px`);
         }
-    }, { passive: true });
+    });
 
     window.addEventListener("scroll", () => {
         scrollY = window.scrollY;
     });
 
     // ------------------------------------------
-    // 4. Animation Loop
+    // 4. Render & Animation Loop
     // ------------------------------------------
 
     const clock = new THREE.Clock();
@@ -121,23 +118,22 @@ if (canvas && typeof THREE !== "undefined") {
 
         const elapsedTime = clock.getElapsedTime();
 
-        // Smooth Lerp for natural movement dampening
+        // Smooth Lerp
         mouseX += (targetX - mouseX) * 0.05;
         mouseY += (targetY - mouseY) * 0.05;
 
-        // Base Rotations
-        outerSphere.rotation.x = elapsedTime * 0.05 + mouseY * 0.2;
-        outerSphere.rotation.y = elapsedTime * 0.08 + mouseX * 0.2;
+        // Torus Rotations
+        torusKnot.rotation.x = elapsedTime * 0.12 + mouseY * 0.3;
+        torusKnot.rotation.y = elapsedTime * 0.15 + mouseX * 0.3;
 
-        innerSphere.rotation.x = -elapsedTime * 0.08;
-        innerSphere.rotation.y = -elapsedTime * 0.1;
+        coreMesh.rotation.x = -elapsedTime * 0.2;
+        coreMesh.rotation.y = -elapsedTime * 0.15;
 
-        // Particle Drift
-        particles.rotation.y = elapsedTime * 0.02;
+        // Particle Rotation
+        particleSystem.rotation.y = elapsedTime * 0.02;
 
-        // Parallax scroll movement across page sections
-        mainGroup.position.y = scrollY * 0.005;
-        camera.position.y = -scrollY * 0.003;
+        // Scroll Parallax Integration
+        torusGroup.position.y = -scrollY * 0.008;
 
         renderer.render(scene, camera);
     }
@@ -145,33 +141,30 @@ if (canvas && typeof THREE !== "undefined") {
     animate();
 
     // ------------------------------------------
-    // 5. Responsive Resize
+    // 5. Window Resize Handler
     // ------------------------------------------
 
-    window.addEventListener("resize", function () {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        camera.aspect = width / height;
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(width, height);
+        renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 
     // ------------------------------------------
-    // 6. Interactive 3D Card Tilt Effects
+    // 6. Interactive 3D Card Tilt Effect
     // ------------------------------------------
 
-    const tiltCards = document.querySelectorAll('.glass-card, .skill-card, .timeline-item');
+    const cards = document.querySelectorAll('.3d-card');
 
-    tiltCards.forEach((card) => {
+    cards.forEach((card) => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
 
-            card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) translateZ(10px)`;
+            card.style.transform = `perspective(1000px) rotateX(${-y / 14}deg) rotateY(${x / 14}deg) translateZ(8px)`;
         });
 
         card.addEventListener('mouseleave', () => {
