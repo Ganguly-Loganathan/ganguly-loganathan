@@ -28,7 +28,8 @@ body {
     min-height: 100vh;
 }
 
-/* Ambient Cursor Lighting */
+/* ================= AMBIENT & CANVAS ================= */
+
 .glow-spotlight {
     position: fixed;
     top: 0;
@@ -85,7 +86,6 @@ body {
     z-index: 2;
     position: relative;
     image-orientation: from-image;
-    object-fit: cover;
 }
 
 .avatar-glow {
@@ -213,7 +213,8 @@ h1 {
     margin: 40px 0 90px;
 }
 
-.3d-card {
+/* Corrected class selector from .3d-card to .card-3d */
+.card-3d {
     position: relative;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -229,7 +230,7 @@ h1 {
     text-align: center;
 }
 
-.3d-card:hover {
+.card-3d:hover {
     border-color: rgba(37, 99, 235, 0.35);
     box-shadow: var(--hover-shadow);
 }
@@ -368,14 +369,24 @@ footer {
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 800px) {
-    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    .skills-grid { grid-template-columns: 1fr; }
+    .metrics-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    .skills-grid { 
+        grid-template-columns: 1fr; 
+    }
 }
 
 @media (max-width: 600px) {
-    .metrics-grid { grid-template-columns: 1fr; }
-    .cta-group { flex-direction: column; }
-    .btn { width: 100%; }
+    .metrics-grid { 
+        grid-template-columns: 1fr; 
+    }
+    .cta-group { 
+        flex-direction: column; 
+    }
+    .btn { 
+        width: 100%; 
+    }
     .profile-avatar-wrapper {
         width: 170px;
         height: 170px;
