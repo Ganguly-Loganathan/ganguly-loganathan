@@ -58,7 +58,7 @@ body {
     padding: 60px 32px;
 }
 
-/* ================= HERO & STRAIGHT AVATAR ================= */
+/* ================= HERO & AVATAR ================= */
 
 .hero {
     text-align: center;
@@ -83,13 +83,14 @@ body {
     border-radius: 50%;
     z-index: 10;
     pointer-events: none;
-    animation: scanAnimation 3.5s ease-in-out infinite alternate;
+    animation: scanAnimation 4s ease-in-out infinite alternate;
 }
 
 @keyframes scanAnimation {
-    0% { top: 10%; opacity: 0.2; }
-    50% { opacity: 0.9; }
-    100% { top: 85%; opacity: 0.2; }
+    0% { top: -5%; opacity: 0; }
+    30% { opacity: 0.8; }
+    70% { opacity: 0.8; }
+    100% { top: 105%; opacity: 0; }
 }
 
 .badge {
