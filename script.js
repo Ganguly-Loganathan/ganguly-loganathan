@@ -117,7 +117,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
 // INTERACTIVE 3D GLASS CARDS TILT
 // ==========================================
 
-const cards = document.querySelectorAll('.3d-card');
+const cards = document.querySelectorAll('.card-3d');
 
 cards.forEach((card) => {
     card.addEventListener('mousemove', (e) => {
