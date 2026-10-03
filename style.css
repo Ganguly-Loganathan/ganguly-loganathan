@@ -83,7 +83,7 @@ body {
     border: 4px solid #ffffff;
     box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
     z-index: 2;
-    position: relative;
+    position: ;
 }
 
 .avatar-glow {
