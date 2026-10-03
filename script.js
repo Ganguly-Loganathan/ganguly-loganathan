@@ -171,4 +171,31 @@ if (canvas && typeof THREE !== "undefined") {
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
         });
     });
+
+    // ------------------------------------------
+    // 7. Interactive 3D Avatar Physics
+    // ------------------------------------------
+
+    const avatarCard = document.querySelector('.3d-avatar-card');
+
+    if (avatarCard) {
+        avatarCard.addEventListener('mousemove', (e) => {
+            const rect = avatarCard.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            avatarCard.style.transform = `perspective(1000px) rotateX(${-y / 6}deg) rotateY(${x / 6}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+
+        avatarCard.addEventListener('mouseleave', () => {
+            avatarCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+
+        avatarCard.addEventListener('click', () => {
+            avatarCard.style.transform = 'perspective(1000px) scale(0.92)';
+            setTimeout(() => {
+                avatarCard.style.transform = 'perspective(1000px) scale(1.05)';
+            }, 150);
+        });
+    }
 }
