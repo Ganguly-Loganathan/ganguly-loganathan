@@ -1,5 +1,5 @@
 // ==========================================
-// 1. THREE.JS BACKGROUND SCENE
+// THREE.JS INTERACTIVE BACKGROUND SCENE
 // ==========================================
 
 const bgCanvas = document.getElementById("bg-canvas");
@@ -25,7 +25,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // Background Wireframe Shape
+    // Background Wireframe Centerpiece
     const torusGroup = new THREE.Group();
     scene.add(torusGroup);
 
@@ -34,7 +34,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
         color: 0x2563eb,
         wireframe: true,
         transparent: true,
-        opacity: 0.1
+        opacity: 0.12
     });
 
     const torusKnot = new THREE.Mesh(torusGeo, torusMat);
@@ -57,7 +57,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
         size: 0.18,
         color: 0x2563eb,
         transparent: true,
-        opacity: 0.3
+        opacity: 0.35
     });
 
     const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -114,101 +114,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
 }
 
 // ==========================================
-// 2. STRAIGHT 3D AVATAR WITH DYNAMIC RINGS
-// ==========================================
-
-const avatarContainer = document.getElementById("avatar-container");
-
-if (avatarContainer && typeof THREE !== "undefined") {
-
-    const avatarScene = new THREE.Scene();
-
-    const avatarCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    avatarCamera.position.z = 4.8;
-
-    const avatarRenderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true
-    });
-    avatarRenderer.setSize(240, 240);
-    avatarRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    avatarContainer.appendChild(avatarRenderer.domElement);
-
-    const avatarGroup = new THREE.Group();
-    avatarScene.add(avatarGroup);
-
-    // Texture Loader for Profile Image
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load("profile.jpg", (texture) => {
-
-        // Rotate texture 90 degrees upright
-        texture.center.set(0.5, 0.5);
-        texture.rotation = -Math.PI / 2;
-
-        // 1. Circular Disc for Profile Image
-        const discGeo = new THREE.CircleGeometry(1.6, 64);
-        const discMat = new THREE.MeshBasicMaterial({
-            map: texture,
-            transparent: true
-        });
-
-        const avatarMesh = new THREE.Mesh(discGeo, discMat);
-        avatarGroup.add(avatarMesh);
-
-        // 2. Outer Rotating 3D Ring
-        const ringGeo = new THREE.TorusGeometry(1.9, 0.02, 16, 100);
-        const ringMat = new THREE.MeshBasicMaterial({
-            color: 0x2563eb,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.8
-        });
-        const outerRing = new THREE.Mesh(ringGeo, ringMat);
-        avatarGroup.add(outerRing);
-
-        // 3. Orbiting Particle Ring
-        const particleCount = 40;
-        const orbitGeo = new THREE.BufferGeometry();
-        const orbitPos = new Float32Array(particleCount * 3);
-
-        for (let i = 0; i < particleCount; i++) {
-            const angle = (i / particleCount) * Math.PI * 2;
-            orbitPos[i * 3] = Math.cos(angle) * 2.1;
-            orbitPos[i * 3 + 1] = Math.sin(angle) * 2.1;
-            orbitPos[i * 3 + 2] = (Math.random() - 0.5) * 0.1;
-        }
-
-        orbitGeo.setAttribute('position', new THREE.BufferAttribute(orbitPos, 3));
-        const orbitMat = new THREE.PointsMaterial({
-            color: 0x0d9488,
-            size: 0.08,
-            transparent: true,
-            opacity: 0.9
-        });
-
-        const orbitParticles = new THREE.Points(orbitGeo, orbitMat);
-        avatarGroup.add(orbitParticles);
-
-        const avatarClock = new THREE.Clock();
-
-        function animateAvatar() {
-            requestAnimationFrame(animateAvatar);
-
-            const elapsedTime = avatarClock.getElapsedTime();
-
-            // Rings rotate smoothly while the main profile disc stays straight
-            outerRing.rotation.z = elapsedTime * 0.5;
-            orbitParticles.rotation.z = -elapsedTime * 0.8;
-
-            avatarRenderer.render(avatarScene, avatarCamera);
-        }
-
-        animateAvatar();
-    });
-}
-
-// ==========================================
-// 3. INTERACTIVE 3D GLASS CARDS TILT
+// INTERACTIVE 3D GLASS CARDS TILT
 // ==========================================
 
 const cards = document.querySelectorAll('.3d-card');
