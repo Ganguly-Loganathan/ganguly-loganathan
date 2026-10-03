@@ -114,7 +114,7 @@ if (bgCanvas && typeof THREE !== "undefined") {
 }
 
 // ==========================================
-// 2. REAL 3D HOLOGRAPHIC AVATAR ENGINE
+// 2. STRAIGHT 3D AVATAR WITH DYNAMIC RINGS
 // ==========================================
 
 const avatarContainer = document.getElementById("avatar-container");
@@ -141,19 +141,17 @@ if (avatarContainer && typeof THREE !== "undefined") {
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load("profile.jpg", (texture) => {
 
-        // 1. Front Avatar Disc
-        const discGeo = new THREE.CylinderGeometry(1.6, 1.6, 0.1, 64);
-        const discMat = [
-            new THREE.MeshBasicMaterial({ color: 0x2563eb }), // Rim
-            new THREE.MeshBasicMaterial({ map: texture }),    // Top Front (Image)
-            new THREE.MeshBasicMaterial({ color: 0x0f172a })  // Bottom Back
-        ];
+        // 1. Perfectly Straight Image Disc (Fixed Facing Direction)
+        const discGeo = new THREE.PlaneGeometry(3.2, 3.2);
+        const discMat = new THREE.MeshBasicMaterial({
+            map: texture,
+            transparent: true
+        });
 
         const avatarMesh = new THREE.Mesh(discGeo, discMat);
-        avatarMesh.rotation.x = Math.PI / 2;
         avatarGroup.add(avatarMesh);
 
-        // 2. Floating Outer Holographic Ring
+        // 2. Outer Rotating 3D Ring
         const ringGeo = new THREE.TorusGeometry(1.9, 0.02, 16, 100);
         const ringMat = new THREE.MeshBasicMaterial({
             color: 0x2563eb,
@@ -173,7 +171,7 @@ if (avatarContainer && typeof THREE !== "undefined") {
             const angle = (i / particleCount) * Math.PI * 2;
             orbitPos[i * 3] = Math.cos(angle) * 2.1;
             orbitPos[i * 3 + 1] = Math.sin(angle) * 2.1;
-            orbitPos[i * 3 + 2] = (Math.random() - 0.5) * 0.2;
+            orbitPos[i * 3 + 2] = (Math.random() - 0.5) * 0.1;
         }
 
         orbitGeo.setAttribute('position', new THREE.BufferAttribute(orbitPos, 3));
@@ -187,24 +185,6 @@ if (avatarContainer && typeof THREE !== "undefined") {
         const orbitParticles = new THREE.Points(orbitGeo, orbitMat);
         avatarGroup.add(orbitParticles);
 
-        // Interactive Tracking variables
-        let targetRotX = 0;
-        let targetRotY = 0;
-
-        avatarContainer.addEventListener("mousemove", (e) => {
-            const rect = avatarContainer.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-            const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-
-            targetRotY = x * 0.6;
-            targetRotX = -y * 0.6;
-        });
-
-        avatarContainer.addEventListener("mouseleave", () => {
-            targetRotX = 0;
-            targetRotY = 0;
-        });
-
         const avatarClock = new THREE.Clock();
 
         function animateAvatar() {
@@ -212,11 +192,7 @@ if (avatarContainer && typeof THREE !== "undefined") {
 
             const elapsedTime = avatarClock.getElapsedTime();
 
-            // Smooth Interpolation
-            avatarGroup.rotation.y += (targetRotY - avatarGroup.rotation.y) * 0.1;
-            avatarGroup.rotation.x += (targetRotX - avatarGroup.rotation.x) * 0.1;
-
-            // Continuous Subtle Oscillations
+            // The image stays 100% straight while outer rings spin
             outerRing.rotation.z = elapsedTime * 0.5;
             orbitParticles.rotation.z = -elapsedTime * 0.8;
 
